@@ -1,0 +1,9 @@
+name: MGAPI_Ex
+main: com.comze_instancelabs.minigamesapi_example.Main
+version: 1.0.0
+author: InstanceLabs
+softdepend: [Vault]
+commands:
+   rush:
+      description: Main command
+      usage: /rush [action]
