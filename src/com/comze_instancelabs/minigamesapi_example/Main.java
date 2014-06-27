@@ -19,34 +19,35 @@ public class Main extends JavaPlugin {
 
 	MinigamesAPI api = null;
 
-	public void onEnable(){
+	public void onEnable() {
 		api = MinigamesAPI.getAPI().setupAPI(this, IArena.class);
 		PluginInstance pinstance = MinigamesAPI.getAPI().pinstances.get(this);
 		pinstance.addLoadedArenas(loadArenas(this, pinstance.getArenasConfig()));
-		pinstance.pvp = false;
+		// pinstance.pvp = false;
 		System.out.println(MinigamesAPI.getAPI().pinstances.get(this).getArenas().get(0).toString());
 	}
 
 	public static ArrayList<Arena> loadArenas(JavaPlugin plugin, ArenasConfig cf) {
 		ArrayList<Arena> ret = new ArrayList<Arena>();
 		FileConfiguration config = cf.getConfig();
-		if(!config.isSet("arenas")){
+		if (!config.isSet("arenas")) {
 			return ret;
 		}
 		for (String arena : config.getConfigurationSection("arenas.").getKeys(false)) {
-			if(Validator.isArenaValid(plugin, arena, cf.getConfig())){
+			if (Validator.isArenaValid(plugin, arena, cf.getConfig())) {
 				ret.add(initArena(plugin, arena));
 			}
 		}
 		return ret;
 	}
-	
-	public static IArena initArena(JavaPlugin plugin, String arena){
-		IArena a = new IArena(plugin, arena);
-		a.init(Util.getSignLocationFromArena(plugin, arena), Util.getAllSpawns(plugin, arena), Util.getMainLobby(plugin), Util.getComponentForArena(plugin, arena, "lobby"), ArenaSetup.getPlayerCount(plugin, arena, true), ArenaSetup.getPlayerCount(plugin, arena, false), ArenaSetup.getArenaVIP(plugin, arena));
+
+	public static IArena initArena(JavaPlugin m, String arena) {
+		IArena a = new IArena(m, arena);
+		ArenaSetup s = MinigamesAPI.getAPI().pinstances.get(m).arenaSetup;
+		a.init(Util.getSignLocationFromArena(m, arena), Util.getAllSpawns(m, arena), Util.getMainLobby(m), Util.getComponentForArena(m, arena, "lobby"), s.getPlayerCount(m, arena, true), s.getPlayerCount(m, arena, false), s.getArenaVIP(m, arena));
 		return a;
 	}
-	
+
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		return api.getCommandHandler().handleArgs(this, "minigamesexample", "/" + cmd.getName(), sender, args);
 	}
