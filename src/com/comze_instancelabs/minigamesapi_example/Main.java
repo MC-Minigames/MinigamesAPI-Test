@@ -20,7 +20,7 @@ public class Main extends JavaPlugin {
 	MinigamesAPI api = null;
 
 	public void onEnable() {
-		api = MinigamesAPI.getAPI().setupAPI(this, IArena.class);
+		api = MinigamesAPI.getAPI().setupAPI(this, "example", IArena.class);
 		PluginInstance pinstance = MinigamesAPI.getAPI().pinstances.get(this);
 		pinstance.addLoadedArenas(loadArenas(this, pinstance.getArenasConfig()));
 		// pinstance.pvp = false;
