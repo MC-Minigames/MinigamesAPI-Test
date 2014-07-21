@@ -18,7 +18,7 @@ public class IArena extends Arena {
 	}
 	
 	@Override
-	public void start(){
+	public void start(boolean tp){
 		Bukkit.getLogger().info("Test start()");
 		return;
 	}
